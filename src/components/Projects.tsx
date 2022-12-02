@@ -1,8 +1,8 @@
 import { IconButton, Stack, Text, Wrap } from '@react-native-material/core';
 import { useState } from 'react';
-import { Modal, TouchableOpacity } from 'react-native';
 import * as Card from './ProjectCard';
 import { Project } from '../data/projects';
+import * as CardModal from './CardModal';
 
 export function Component(props: { projects: Array<Project> }) {
 	const [detailsView, setDetailsView] = useState<
@@ -35,44 +35,29 @@ export function Component(props: { projects: Array<Project> }) {
 						/>
 					))}
 			</Wrap>
-			<Modal
+			<CardModal.Component
 				visible={detailsView !== undefined}
-				onDismiss={() => setDetailsView(undefined)}
-				onRequestClose={() => setDetailsView(undefined)}
-				transparent
+				onClose={() => setDetailsView(undefined)}
 			>
-				<TouchableOpacity
+				<Stack
 					style={{
-						backgroundColor: 'rgba(0,0,0,0.5)',
-						flex: 1,
-						justifyContent: 'center',
-						width: '100%',
-						height: '100%',
-						display: 'flex',
-						alignItems: 'center',
+						width: '60%',
+						height: '60%',
+						backgroundColor: 'white',
+						borderRadius: 5,
 					}}
-					onPress={() => setDetailsView(undefined)}
 				>
-					<Stack
-						style={{
-							width: '60%',
-							height: '60%',
-							backgroundColor: 'white',
-							borderRadius: 5,
-						}}
+					<IconButton />
+					<Text
+						style={{ textAlign: 'center' }}
+						variant="subtitle1"
 					>
-						<IconButton />
-						<Text
-							style={{ textAlign: 'center' }}
-							variant="subtitle1"
-						>
-							{detailsView?.name}
-						</Text>
-						<Text style={{ textAlign: 'center' }}>{detailsView?.status}</Text>
-						<Text>{detailsView?.id}</Text>
-					</Stack>
-				</TouchableOpacity>
-			</Modal>
+						{detailsView?.name}
+					</Text>
+					<Text style={{ textAlign: 'center' }}>{detailsView?.status}</Text>
+					<Text>{detailsView?.id}</Text>
+				</Stack>
+			</CardModal.Component>
 		</>
 	);
 }
