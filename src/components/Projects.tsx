@@ -1,4 +1,4 @@
-import { IconButton, Stack, Text, Wrap } from '@react-native-material/core';
+import { Text, Wrap } from '@react-native-material/core';
 import { useState } from 'react';
 import * as Card from './ProjectCard';
 import { Project } from '../data/projects';
@@ -39,15 +39,7 @@ export function Component(props: { projects: Array<Project> }) {
 				visible={detailsView !== undefined}
 				onClose={() => setDetailsView(undefined)}
 			>
-				<Stack
-					style={{
-						width: '60%',
-						height: '60%',
-						backgroundColor: 'white',
-						borderRadius: 5,
-					}}
-				>
-					<IconButton />
+				<>
 					<Text
 						style={{ textAlign: 'center' }}
 						variant="subtitle1"
@@ -56,7 +48,7 @@ export function Component(props: { projects: Array<Project> }) {
 					</Text>
 					<Text style={{ textAlign: 'center' }}>{detailsView?.status}</Text>
 					<Text>{detailsView?.id}</Text>
-				</Stack>
+				</>
 			</CardModal.Component>
 		</>
 	);

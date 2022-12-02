@@ -1,4 +1,6 @@
+import { Flex, IconButton, Stack } from '@react-native-material/core';
 import { Modal, TouchableOpacity } from 'react-native';
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 
 export function Component(props: {
 	visible: boolean;
@@ -24,7 +26,30 @@ export function Component(props: {
 				}}
 				onPress={props.onClose}
 			>
-				{props.children}
+				<Stack
+					style={{
+						width: '60%',
+						height: '60%',
+						backgroundColor: 'white',
+						borderRadius: 5,
+					}}
+				>
+					<Flex
+						direction="row"
+						justify="end"
+					>
+						<IconButton
+							onPress={props.onClose}
+							icon={
+								<Icon
+									name="close"
+									size={20}
+								/>
+							}
+						/>
+					</Flex>
+					{props.children}
+				</Stack>
 			</TouchableOpacity>
 		</Modal>
 	);
