@@ -27,8 +27,7 @@
 		"web": {
 			"favicon": "./assets/favicon.png"
 		},
-		"expo": {
-			"scheme": "mycoolredirect"
-		}
+
+		"scheme": "app.knittrack"
 	}
 }

@@ -1,4 +1,3 @@
-import { Stack } from '@react-native-material/core';
 import { Image, Pressable } from 'react-native';
 
 import { Project } from '../data/projects';
@@ -8,14 +7,7 @@ export function Component(props: {
 	setProjectDetails: (name: string, status: string, id: number) => void;
 }) {
 	return (
-		<Stack
-			spacing={10}
-			style={{
-				width: 150,
-				height: 150,
-				backgroundColor: 'lightyellow',
-			}}
-		>
+		<>
 			{props.project.first_photo?.small2_url && (
 				<Pressable
 					onPress={() =>
@@ -32,6 +24,6 @@ export function Component(props: {
 					/>
 				</Pressable>
 			)}
-		</Stack>
+		</>
 	);
 }

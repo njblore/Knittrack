@@ -19,19 +19,21 @@ if (!global.atob) {
 	global.atob = decode;
 }
 
-export function Component(props: {}) {
+export function Component(props: { logout: () => void; authToken: string }) {
 	const [projects, setProjects] = useState<Array<Project>>([]);
 	const [volumes, setLibrary] = useState<Array<LibraryVolume>>([]);
-	const [view, setView] = useState<'projects' | 'library'>('projects');
+	const [view, setView] = useState<'projects' | 'library'>('library');
+	const [downloadLinks, setDownloadLinks] = useState<Record<number, string>>(
+		{},
+	);
 
+	const axiosInstance = axios.create({
+		headers: {
+			Authorization: props.authToken,
+		},
+	});
+	console.log(props.authToken);
 	useEffect(() => {
-		const axiosInstance = axios.create({
-			auth: {
-				username: RAV_KEY,
-				password: RAV_PASSWORD,
-			},
-		});
-
 		axiosInstance
 			.get(`https://api.ravelry.com/projects/${RAV_USER}/list.json`)
 			.then((res) => {
@@ -39,24 +41,41 @@ export function Component(props: {}) {
 			})
 			.catch((error) => console.error(error));
 
-		axiosInstance
-			.get(`https://api.ravelry.com/people/${RAV_USER}/library/search.json `)
-			.then((res) => {
-				setLibrary(res.data.volumes);
-			})
-			.catch((error) => console.error(error));
+		// axiosInstance
+		// 	.get(`https://api.ravelry.com/people/${RAV_USER}/library/search.json`)
+		// 	.then((res) => {
+		// 		setLibrary(res.data.volumes);
+		// 		res.data.volumes.forEach((vol: LibraryVolume) => {
+		// 			console.log(vol.pattern_id);
+		// 			axiosInstance
+		// 				.get(
+		// 					`https://api.ravelry.com/products/${vol.pattern_id}/attachments.json`,
+		// 				)
+		// 				.then((pdf) => {
+		// 					console.log('download link', pdf);
+		// 				})
+		// 				.catch(console.error);
+		// 		});
+		// 	})
+		// 	.catch((error) => console.error(error));
 	}, []);
 
 	return (
 		<>
 			<StatusBar translucent />
 			<ScrollView stickyHeaderIndices={[0]}>
-				<Text
-					style={{ backgroundColor: 'white' }}
-					variant="h3"
-				>
-					Knittrack
-				</Text>
+				<Stack direction="row">
+					<Text
+						style={{ backgroundColor: 'white' }}
+						variant="h3"
+					>
+						Knittrack
+					</Text>
+					<Button
+						title="Logout"
+						onPress={props.logout}
+					/>
+				</Stack>
 				<Stack spacing={20}>
 					<Stack
 						direction="row"
@@ -73,7 +92,12 @@ export function Component(props: {}) {
 					</Stack>
 
 					{view === 'projects' && <Projects.Component projects={projects} />}
-					{view === 'library' && <Library.Component volumes={volumes} />}
+					{view === 'library' && (
+						<Library.Component
+							volumes={volumes}
+							downloadLinks={downloadLinks}
+						/>
+					)}
 				</Stack>
 			</ScrollView>
 		</>

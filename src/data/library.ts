@@ -7,4 +7,6 @@ export type LibraryVolume = {
 	square_image_url?: string;
 	updated_at: Date;
 	created_at: Date;
+	pattern_id: number;
+	pattern_source_id?: number;
 };
